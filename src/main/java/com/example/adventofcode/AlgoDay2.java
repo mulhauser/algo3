@@ -7,11 +7,11 @@ import java.util.List;
 
 public class AlgoDay2 {
 
-    public static void main(String[]args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input2-part1.txt"));
+    public static void main(String[] args) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input2.txt"));
 
-        System.out.println("Part 1: "+part1(lines));
-        System.out.println("Part 2: "+part2(lines));
+        System.out.println("Part 1: " + part1(lines));
+        System.out.println("Part 2: " + part2(lines));
     }
 
     private static int part1(List<String> lines) {
@@ -35,7 +35,7 @@ public class AlgoDay2 {
                         maxRed = Math.max(Integer.parseInt(color.trim().replace("red", "").trim()), maxRed);
                     } else if (color.trim().matches("\\d+\\s(green)")) {
                         maxGreen = Math.max(Integer.parseInt(color.trim().replace("green", "").trim()), maxGreen);
-                    } else if (color.trim().matches("\\d+\\s(blue)")){
+                    } else if (color.trim().matches("\\d+\\s(blue)")) {
                         maxBlue = Math.max(Integer.parseInt(color.trim().replace("blue", "").trim()), maxBlue);
                     }
                 }
@@ -66,13 +66,13 @@ public class AlgoDay2 {
                         maxRed = Math.max(Integer.parseInt(color.trim().replace("red", "").trim()), maxRed);
                     } else if (color.trim().matches("\\d+\\s(green)")) {
                         maxGreen = Math.max(Integer.parseInt(color.trim().replace("green", "").trim()), maxGreen);
-                    } else if (color.trim().matches("\\d+\\s(blue)")){
+                    } else if (color.trim().matches("\\d+\\s(blue)")) {
                         maxBlue = Math.max(Integer.parseInt(color.trim().replace("blue", "").trim()), maxBlue);
                     }
                 }
             }
 
-            sumId += maxRed*maxGreen*maxBlue;
+            sumId += maxRed * maxGreen * maxBlue;
 
 
         }

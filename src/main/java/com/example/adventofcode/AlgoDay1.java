@@ -11,19 +11,33 @@ import java.util.regex.Pattern;
 
 public class AlgoDay1 {
 
-    public static void main(String[]args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input1-part2.txt"));
-        int sum = 0;
-        for (String line : lines) {
-            //String[] results = line.split("/(?=(0|1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine))/");
-            int intemediate = getFirstAndLast(line);
-            sum += intemediate;
-        }
-        //int sum = lines.stream().map(AlgoDay1::getFirstAndLast).reduce(0, (a, b) -> a + b);
-        System.out.println(sum);
+    public static void main(String[] args) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input1.txt"));
+
+        System.out.println("Part 1: " + part1(lines)+" - Should be 55386");
+        System.out.println("Part 2: " + part2(lines)+ " - Should be 54824");
     }
 
-    public static int getFirstAndLast(String line) {
+    public static int part1(List<String> lines) {
+        int sum = 0;
+        for (String line : lines) {
+
+            int intermediate = getFirstAndLast(line, "\\d{1}");
+            sum += intermediate;
+        }
+        return sum;
+    }
+
+    public static int part2(List<String> lines) {
+        int sum = 0;
+        for (String line : lines) {
+            int intermediate = getFirstAndLast(line, "(\\d{1}|one|two|three|four|five|six|seven|eight|nine)");
+            sum += intermediate;
+        }
+        return sum;
+    }
+
+    public static int getFirstAndLast(String line, String regex) {
         Map<String, String> maps = new HashMap<>();
         maps.put("one", "1");
         maps.put("two", "2");
@@ -34,34 +48,27 @@ public class AlgoDay1 {
         maps.put("seven", "7");
         maps.put("eight", "8");
         maps.put("nine", "9");
-        //Pattern pattern = Pattern.compile("(\\d{1}|one|two|three|four|five|six|seven|eight|nine)?");
-        line = line.replace("oneight","oneeight");
-        line = line.replace("threeight","threeeight");
-        line = line.replace("fiveight","fiveeight");
-        line = line.replace("nineight","nineeight");
-        line = line.replace("twone","twoone");
-        line = line.replace("sevenine","sevennine");
-        line = line.replace("eightwo","eighttwo");
-        line = line.replace("eighthree","eightthree");
-        Pattern pattern = Pattern.compile("(\\d{1}|one|two|three|four|five|six|seven|eight|nine)");
-        Matcher matcher = pattern.matcher(line);
-        String first= null;
-        String last = null;
-        int count = 0;
+        line = line.replace("oneight", "oneeight");
+        line = line.replace("threeight", "threeeight");
+        line = line.replace("fiveight", "fiveeight");
+        line = line.replace("nineight", "nineeight");
+        line = line.replace("twone", "twoone");
+        line = line.replace("sevenine", "sevennine");
+        line = line.replace("eightwo", "eighttwo");
+        line = line.replace("eighthree", "eightthree");
 
-        while(matcher.find())
-        {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(line);
+        String first = null;
+        String last = null;
+
+        while (matcher.find()) {
             last = matcher.group();
             if (first == null) {
                 first = last;
 
             }
-            count++;
         }
-        /*if (count == 1) {
-            return Integer.parseInt(maps.getOrDefault(first, first));
-        } else {*/
-            return Integer.parseInt((maps.getOrDefault(first, first))+""+(maps.getOrDefault(last, last)));
-        //}
+        return Integer.parseInt((maps.getOrDefault(first, first)) + "" + (maps.getOrDefault(last, last)));
     }
 }

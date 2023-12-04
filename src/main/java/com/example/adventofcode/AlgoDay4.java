@@ -12,15 +12,15 @@ import java.util.regex.Pattern;
 
 public class AlgoDay4 {
 
-    public static void main(String[]args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input4-part1.txt"));
+    public static void main(String[] args) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input4.txt"));
 
-        System.out.println("Part 1: "+part1(lines));
+        System.out.println("Part 1: " + part1(lines));
 
         Map<String, Integer> maps = new HashMap<>();
-        part2(lines, lines,1, maps);
-        int sum = maps.values().stream().reduce(0, (a,b) -> a+b);
-        System.out.println("Part 2: "+sum);
+        part2(lines, lines, 1, maps);
+        int sum = maps.values().stream().reduce(0, (a, b) -> a + b);
+        System.out.println("Part 2: " + sum);
     }
 
     public static int part1(List<String> lines) {
@@ -56,7 +56,7 @@ public class AlgoDay4 {
                 if (i == 0) {
                     subSum = 1;
                 } else {
-                    subSum*=2;
+                    subSum *= 2;
                 }
                 i++;
             }
@@ -102,7 +102,7 @@ public class AlgoDay4 {
                     i++;
                 }
             }
-                maps.put(card[0], value +1);
+            maps.put(card[0], value + 1);
             firstIndex++;
             part2(newLines, basedLines, firstIndex, maps);
         }
