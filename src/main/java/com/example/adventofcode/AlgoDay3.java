@@ -30,12 +30,8 @@ public class AlgoDay3 {
 			int nbCols = tab[0].length;
 
 			for (Position symbol : symbols) {
-				boolean isGear = false;
 				int numberPartOnGear = 0;
 				int subSumGear = 1;
-				if (tab[symbol.x][symbol.y] == '*') {
-					isGear = true;
-				}
 				for (int i = -1; i <= 1; i++) {
 					for (int j = -1; j <= 1; j++) {
 						if (i==0 && j==0){
@@ -61,8 +57,8 @@ public class AlgoDay3 {
 				}
 			}
 
-			System.out.println(sum);
-			System.out.println(sumGear);
+			System.out.println("Part 1: "+sum);
+			System.out.println("Part 2: "+sumGear);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,7 +70,7 @@ public class AlgoDay3 {
 		int yBis = y;
 		while(yBis-1>=0&&Character.isDigit((tab[x][yBis-1]))) {
 
-			number = Character.toString(tab[x][yBis-1]) + number;
+			number = tab[x][yBis - 1] + number;
 			yBis--;
 		}
 		int startX = xBis;
@@ -84,14 +80,13 @@ public class AlgoDay3 {
 		int yTer = y;
 		while(yTer+1<tab[x].length&&Character.isDigit((tab[x][yTer+1]))) {
 
-			number = number + Character.toString(tab[x][yTer+1]);
+			number = number + tab[x][yTer + 1];
 			yTer++;
 		}
 		int endX = xTer;
 		int endY = yTer;
 
 		return new NumberAndPositions(new Position(startX, startY), new Position(endX, endY), Integer.parseInt(number));
-		//return null;
 	}
 
 }
