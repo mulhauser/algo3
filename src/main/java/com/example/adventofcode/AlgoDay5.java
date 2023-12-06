@@ -11,10 +11,12 @@ import java.util.Optional;
 public class AlgoDay5 {
 
     public static void main(String[] args) throws IOException {
-        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input5-correct.txt"));
+        List<String> lines = Files.readAllLines(Paths.get("src/main/resources/input5.txt"));
 
 
         System.out.println(part1(lines));
+
+        System.out
     }
 
 
@@ -92,26 +94,28 @@ public class AlgoDay5 {
         for (String seed : seeds) {
             long seedPosition = Long.parseLong(seed);
             SourceToTarget defaultTarget = new SourceToTarget(seedPosition);
-            long soilPos = seedToSoilMap.stream().filter(stt -> seedPosition > stt.getSourceLocation() && seedPosition <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(soilPos);
-            long fertiPos = soitToFertiMap.stream().filter(stt -> soilPos > stt.getSourceLocation() && soilPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(fertiPos);
-            long waterPos = fertiToWaterMap.stream().filter(stt -> fertiPos > stt.getSourceLocation() && fertiPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(waterPos);
-            long lightPos = waterToLightMap.stream().filter(stt -> waterPos > stt.getSourceLocation() && waterPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(lightPos);
-            long tempPos = lightToTempMap.stream().filter(stt -> lightPos > stt.getSourceLocation() && lightPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(tempPos);
-            long humPos = tempToHumMap.stream().filter(stt -> tempPos > stt.getSourceLocation() && tempPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            defaultTarget.setDestinationLocation(humPos);
-            long loc = humTolocMap.stream().filter(stt -> humPos > stt.getSourceLocation() && humPos <= stt.getSourceLocation()+ stt.getLength()).findFirst().orElse(defaultTarget).getDestinationLocation();
-            if (loc < minLocation) {
-                minLocation = loc;
+            long nextSourcePosition = extractNextPosition(seedToSoilMap, seedPosition);
+            nextSourcePosition = extractNextPosition(soitToFertiMap, nextSourcePosition);
+            nextSourcePosition = extractNextPosition(fertiToWaterMap, nextSourcePosition);
+            nextSourcePosition = extractNextPosition(waterToLightMap, nextSourcePosition);
+            nextSourcePosition = extractNextPosition(lightToTempMap, nextSourcePosition);
+            nextSourcePosition = extractNextPosition(tempToHumMap, nextSourcePosition);
+            nextSourcePosition = extractNextPosition(humTolocMap, nextSourcePosition);
+            if (nextSourcePosition < minLocation) {
+                minLocation = nextSourcePosition;
             }
         }
         return minLocation;
     }
 
+    public static long extractNextPosition(List<SourceToTarget> list, long sourcePosition) {
+        Optional<SourceToTarget> sourceToTarget = list.stream().filter(stt -> sourcePosition > stt.getSourceLocation() && sourcePosition <= stt.getSourceLocation()+ stt.getLength()).findFirst();
+        if (sourceToTarget.isPresent()) {
+            SourceToTarget toTarget = sourceToTarget.get();
+            return toTarget.getDestinationLocation() + sourcePosition - toTarget.getSourceLocation();
+        }
+        return sourcePosition;
+    }
     public static void extractSourceDestinationMap(List<SourceToTarget> map, String line) {
         String[] seedToSoilArray = line.split(" ");
         SourceToTarget srcTar = new SourceToTarget();
